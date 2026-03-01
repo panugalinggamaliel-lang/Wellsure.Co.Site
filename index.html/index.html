@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellsure Co. | Chase your Wellness, Improve your Lifestyle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        wellsure: {
+                            green: '#74a851',
+                            lightGreen: '#a3c585',
+                            darkGreen: '#1a240f',
+                            dark: '#0a0a0a'
+                        }
+                    }
+                }
+            }
+        }
+
+        // 1. FACILITY TOGGLE
+        function toggleFacility(id) {
+            const container = document.getElementById(`${id}-details`);
+            const btn = document.getElementById(`${id}-btn`);
+            const defaultImg = document.getElementById(`${id}-img-default`);
+            const activeImg = document.getElementById(`${id}-img-active`);
+            const wrapper = document.getElementById(`${id}-wrapper`);
+
+            if (container.style.maxHeight) {
+                container.style.maxHeight = null;
+                container.style.opacity = "0";
+                activeImg.style.opacity = "0";
+                defaultImg.style.opacity = "1";
+                wrapper.style.height = "450px"; 
+                btn.innerText = 'Show More Details';
+            } else {
+                container.style.maxHeight = container.scrollHeight + "px";
+                container.style.opacity = "1";
+                activeImg.style.opacity = "1";
+                defaultImg.style.opacity = "0";
+                wrapper.style.height = (container.scrollHeight + 400) + "px"; 
+                btn.innerText = 'Show Less';
+            }
+        }
+
+        // 2. MODAL LOGIC
+        function openModal() {
+            document.getElementById('availModal').classList.remove('hidden');
+            document.getElementById('availModal').classList.add('flex');
+            document.getElementById('main-content').classList.add('blur-xl', 'grayscale');
+            document.getElementById('planSelection').classList.remove('hidden');
+            document.getElementById('registrationForm').classList.add('hidden');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function selectPlan(planName) {
+            document.getElementById('selectedPlanTitle').innerText = planName;
+            document.getElementById('planSelection').classList.add('hidden');
+            document.getElementById('registrationForm').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('availModal').classList.add('hidden');
+            document.getElementById('main-content').classList.remove('blur-xl', 'grayscale');
+            document.body.style.overflow = 'auto'; 
+        }
+
+        function handleEnrollment(e) {
+            e.preventDefault();
+            alert("Enrollment Successful! Welcome to the Wellsure Co. family.");
+            closeModal();
+        }
+
+        function toggleFAQ(id) {
+            document.getElementById(`faq-${id}`).classList.toggle('hidden');
+        }
+    </script>
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        .glass-nav { backdrop-filter: blur(16px); transition: all 0.4s ease; }
+        #main-content { transition: filter 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .facility-card { transition: all 0.5s ease; filter: grayscale(100%); opacity: 0.8; }
+        .facility-card:hover { filter: grayscale(0%); opacity: 1; transform: translateY(-5px); }
+        .img-wrapper { position: relative; min-height: 450px; height: 450px; transition: height 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
+        .img-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.8s ease; }
+        .details-container { max-height: 0; overflow: hidden; transition: max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease; opacity: 0; }
+        .team-card { border-left: 4px solid #74a851; background: rgba(255,255,255,0.03); transition: 0.3s; }
+        .team-card:hover { background: rgba(255,255,255,0.07); transform: translateX(10px); }
+    </style>
+</head>
+<body class="bg-black text-white font-sans overflow-x-hidden">
+
+    <div id="main-content">
+        <nav class="glass-nav flex justify-between items-center px-6 md:px-12 py-4 bg-white/95 sticky top-0 z-50 text-black">
+            <div class="flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                <img src="wellsure-logo.png" alt="Logo" class="h-10">
+                <span class="ml-2 text-xl font-black uppercase tracking-tighter">Wellsure <span class="text-wellsure-green">Co.</span></span>
+            </div>
+            <ul class="hidden xl:flex space-x-6 font-black uppercase tracking-widest text-[10px]">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#offers">Programs</a></li>
+                <li><a href="#facilities">Facilities</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button onclick="openModal()" class="bg-black text-white px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest">Join Now</button>
+        </nav>
+
+        <header id="home" class="h-[85vh] flex flex-col justify-end p-8 md:p-20 bg-cover bg-center" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0) 40%, #000 100%), url('Wellsure.1.png');">
+            <div class="max-w-5xl">
+                <h1 class="text-4xl md:text-6xl lg:text-[5rem] font-black uppercase leading-[1.1] tracking-tighter">
+                    Chase your <span class="text-wellsure-green">Wellness</span>,<br>
+                    Improve your <span class="text-wellsure-green">Lifestyle</span>.
+                </h1>
+                <p class="text-lg md:text-xl mt-4 mb-8 italic opacity-80 font-light max-w-2xl">Redefining the standard of wellness with professional coaching and community.</p>
+                <button onclick="openModal()" class="bg-wellsure-green text-black px-10 py-4 rounded-full font-black uppercase tracking-widest hover:scale-105 transition shadow-2xl">Avail Now</button>
+            </div>
+        </header>
+
+        <section id="offers" class="py-32 px-6 max-w-7xl mx-auto">
+            <h2 class="text-4xl font-black uppercase text-center mb-24 tracking-widest">Our Programs</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 text-center">
+                <div class="group"><div class="rounded-[2rem] overflow-hidden mb-8 aspect-video bg-zinc-900"><img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"></div><h3 class="text-xl font-bold uppercase">Enduro-Heart</h3><p class="text-gray-400 text-sm mt-3">Trains heart endurance. Strengthens stamina. Designed for long-term cardiovascular health.</p></div>
+                <div class="group"><div class="rounded-[2rem] overflow-hidden mb-8 aspect-video bg-zinc-900"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"></div><h3 class="text-xl font-bold uppercase">Power Build</h3><p class="text-gray-400 text-sm mt-3">Builds strength and muscle. Strengthens joints. Focuses on explosive power.</p></div>
+                <div class="group"><div class="rounded-[2rem] overflow-hidden mb-8 aspect-video bg-zinc-900"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"></div><h3 class="text-xl font-bold uppercase">Fit Tracking</h3><p class="text-gray-400 text-sm mt-3">Keeps the body balanced with normal BMI. Data-driven fitness monitoring.</p></div>
+                <div class="group"><div class="rounded-[2rem] overflow-hidden mb-8 aspect-video bg-zinc-900"><img src="https://images.unsplash.com/photo-1534258936925-c58bed479fcb?auto=format" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"></div><h3 class="text-xl font-bold uppercase">Metcon Workout</h3><p class="text-gray-400 text-sm mt-3">Burns calories. Improves conditioning. High-intensity metabolic sessions.</p></div>
+                <div class="group"><div class="rounded-[2rem] overflow-hidden mb-8 aspect-video bg-zinc-900"><img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"></div><h3 class="text-xl font-bold uppercase">Yoga</h3><p class="text-gray-400 text-sm mt-3">Increases flexibility and balance. Mind-body connection for recovery.</p></div>
+                <div class="group"><div class="rounded-[2rem] overflow-hidden mb-8 aspect-video bg-zinc-900"><img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"></div><h3 class="text-xl font-bold uppercase">Custom Plans</h3><p class="text-gray-400 text-sm mt-3">A routine tailored specifically for you. Personalized coaching and nutrition.</p></div>
+            </div>
+        </section>
+
+        <section id="facilities" class="py-32 px-6 md:px-20 bg-zinc-950">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl font-black uppercase text-center mb-24 text-wellsure-green tracking-tighter">The Wellsure Facilities</h2>
+                <div class="space-y-24">
+                    <div onclick="toggleFacility('racetrack')" class="facility-card flex flex-col lg:flex-row bg-white/5 rounded-[3.5rem] overflow-hidden border border-white/10 cursor-pointer">
+                        <div id="racetrack-wrapper" class="lg:w-1/2 img-wrapper"><img id="racetrack-img-default" src="Wellsure.2.png"><img id="racetrack-img-active" src="Wellsure-racetrack.png" class="opacity-0"></div>
+                        <div class="p-10 lg:p-20 lg:w-1/2 flex flex-col justify-center">
+                            <h3 class="text-4xl font-bold uppercase text-wellsure-green mb-6">Racetrack</h3>
+                            <p class="text-gray-300 text-xl leading-relaxed">Outdoor racetrack for elite cardiovascular endurance.</p>
+                            <div id="racetrack-details" class="details-container">
+                                <div class="pt-10 mt-10 border-t border-white/10 space-y-8">
+                                    <p class="text-gray-400 italic">Racetrack—for walking, jogging, and speedway racing for competitive members.</p>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div class="bg-wellsure-green/10 p-6 rounded-3xl border border-wellsure-green/20"><span class="text-wellsure-green font-black block uppercase text-xs mb-2">Workout Hours</span>4:00 am - 7:00 am<br>5:00 pm - 8:00 pm</div>
+                                        <div class="bg-white/5 p-6 rounded-3xl border border-white/10"><span class="text-wellsure-lightGreen font-black block uppercase text-xs mb-2">Racing Events</span>8:00 am - 4:00 pm</div>
+                                    </div>
+                                    <p class="text-gray-300 text-sm bg-black/40 p-6 rounded-2xl">Compete with <strong class="text-wellsure-green">Wellsure’s Race Carting Association (WRCA)</strong>.</p>
+                                </div>
+                            </div>
+                            <button id="racetrack-btn" class="mt-10 text-xs font-black uppercase text-wellsure-green border-b-2 border-wellsure-green pb-1">Show More Details</button>
+                        </div>
+                    </div>
+                    <div onclick="toggleFacility('gym')" class="facility-card flex flex-col lg:flex-row-reverse bg-white/5 rounded-[3.5rem] overflow-hidden border border-white/10 cursor-pointer">
+                        <div id="gym-wrapper" class="lg:w-1/2 img-wrapper"><img id="gym-img-default" src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format"><img id="gym-img-active" src="Wellsure-gym.png" class="opacity-0"></div>
+                        <div class="p-10 lg:p-20 lg:w-1/2 flex flex-col justify-center">
+                            <h3 class="text-4xl font-bold uppercase text-wellsure-green mb-6">Indoor Gym</h3>
+                            <p class="text-gray-300 text-xl leading-relaxed">Professional courts and multiple training zones.</p>
+                            <div id="gym-details" class="details-container">
+                                <div class="pt-10 mt-10 border-t border-white/10 space-y-6">
+                                    <p class="text-gray-400 italic">Equipped with complete professional-grade equipment, including full basketball and volleyball courts.</p>
+                                    <div class="bg-wellsure-green/10 p-8 rounded-3xl border border-wellsure-green/20"><span class="text-wellsure-green font-black block uppercase text-xs mb-2">Operational Hours</span>7:00 am to 10:00 pm (Daily)</div>
+                                </div>
+                            </div>
+                            <button id="gym-btn" class="mt-10 text-xs font-black uppercase text-wellsure-green border-b-2 border-wellsure-green pb-1">Show More Details</button>
+                        </div>
+                    </div>
+                    <div onclick="toggleFacility('kiosk')" class="facility-card flex flex-col lg:flex-row bg-white/5 rounded-[3.5rem] overflow-hidden border border-white/10 cursor-pointer">
+                        <div id="kiosk-wrapper" class="lg:w-1/2 img-wrapper"><img id="kiosk-img-default" src="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format"><img id="kiosk-img-active" src="Wellsure-kiosk.png" class="opacity-0"></div>
+                        <div class="p-10 lg:p-20 lg:w-1/2 flex flex-col justify-center">
+                            <h3 class="text-4xl font-bold uppercase text-wellsure-green mb-6">Food Kiosks</h3>
+                            <p class="text-gray-300 text-xl leading-relaxed">Healthy alternative menus tailored to your health goals.</p>
+                            <div id="kiosk-details" class="details-container">
+                                <div class="pt-10 mt-10 border-t border-white/10 space-y-6">
+                                    <p class="text-gray-400 italic">Wellsure kiosks sell healthy, plant-based alternatives with balanced nutrition for recovery.</p>
+                                    <div class="bg-wellsure-green/10 p-8 rounded-3xl border border-wellsure-green/20"><span class="text-wellsure-green font-black block uppercase text-xs mb-2">Menu Focus</span>Healthy diets and high-quality edibles only.</div>
+                                </div>
+                            </div>
+                            <button id="kiosk-btn" class="mt-10 text-xs font-black uppercase text-wellsure-green border-b-2 border-wellsure-green pb-1">Show More Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="blog" class="py-32 px-6 bg-wellsure-darkGreen">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-24">
+                <div><h2 class="text-4xl font-black mb-12 uppercase">Wellness Journal</h2><div class="space-y-8"><div class="p-8 bg-white/5 rounded-3xl border border-white/5 hover:border-wellsure-green transition cursor-pointer"><h4 class="text-xl font-bold">Nutrition for Longevity</h4><p class="text-gray-400 mt-4">Discover the power of plant-based recovery meals.</p></div><div class="p-8 bg-white/5 rounded-3xl border border-white/5 hover:border-wellsure-green transition cursor-pointer"><h4 class="text-xl font-bold">Mental Fortitude</h4><p class="text-gray-400 mt-4">Mastering focus during high-intensity sessions.</p></div></div></div>
+                <div id="faq"><h2 class="text-4xl font-black mb-12 uppercase">FAQ</h2><div class="space-y-6"><div onclick="toggleFAQ(1)" class="cursor-pointer p-6 bg-black/40 rounded-2xl border border-white/10"><div class="flex justify-between font-bold">Do I need prior experience? <i class="fas fa-chevron-down text-wellsure-green"></i></div><p id="faq-1" class="hidden text-sm text-gray-400 mt-5 italic">No, Wellsure Co. is open to everyone from beginners to professionals.</p></div><div onclick="toggleFAQ(2)" class="cursor-pointer p-6 bg-black/40 rounded-2xl border border-white/10"><div class="flex justify-between font-bold">Are trainers included? <i class="fas fa-chevron-down text-wellsure-green"></i></div><p id="faq-2" class="hidden text-sm text-gray-400 mt-5 italic">Full Membership includes unlimited personal training sessions.</p></div></div></div>
+            </div>
+        </section>
+
+        <section id="about" class="py-32 px-6 max-w-5xl mx-auto text-center"><h2 class="text-5xl font-black uppercase mb-12">About Us</h2><p class="text-2xl text-gray-400 leading-relaxed font-light">Wellsure Co. inspires people of all ages to enhance health and confidence. We provide a motivating environment with cutting-edge facilities, certified trainers, and customized programs.</p></section>
+
+        <section id="team" class="py-32 px-6 bg-zinc-950">
+            <div class="max-w-7xl mx-auto"><h2 class="text-4xl font-black uppercase text-center mb-24 text-wellsure-green">Management Team</h2><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div class="team-card p-10 rounded-[2.5rem]"><h3 class="text-xl font-bold mb-1">Julia Mari Klaire A. Macuja</h3><p class="text-wellsure-green text-xs font-black uppercase mb-5">CEO & Founder</p><p class="text-gray-500 text-sm">Graduated in Business Admin. Oversees major corporate decisions.</p></div>
+                <div class="team-card p-10 rounded-[2.5rem]"><h3 class="text-xl font-bold mb-1">Gamaliel V. Panugaling</h3><p class="text-wellsure-green text-xs font-black uppercase mb-5">Chief Operating Officer</p><p class="text-gray-500 text-sm">Oversees day-to-day operational functions of the company.</p></div>
+                <div class="team-card p-10 rounded-[2.5rem]"><h3 class="text-xl font-bold mb-1">Dyann Alexis K. Topinio</h3><p class="text-wellsure-green text-xs font-black uppercase mb-5">Chief Marketing Officer</p><p class="text-gray-500 text-sm">Master’s in Marketing. Creating long-term strategies.</p></div>
+                <div class="team-card p-10 rounded-[2.5rem]"><h3 class="text-xl font-bold mb-1">Julianne Mariz D. Placio</h3><p class="text-wellsure-green text-xs font-black uppercase mb-5">Chief Financial Officer</p><p class="text-gray-500 text-sm">Certified public accountant ensuring financial recording.</p></div>
+                <div class="team-card p-10 rounded-[2.5rem]"><h3 class="text-xl font-bold mb-1">Liam Jacob L. Miramontes</h3><p class="text-wellsure-green text-xs font-black uppercase mb-5">Chief HR Officer</p><p class="text-gray-500 text-sm">Manages human resources department and strategy.</p></div>
+                <div class="team-card p-10 rounded-[2.5rem]"><h3 class="text-xl font-bold mb-1">Lean Jamir V. Cuala</h3><p class="text-wellsure-green text-xs font-black uppercase mb-5">Executive Manager</p><p class="text-gray-500 text-sm">5 years leadership experience. Ensures smooth daily operations.</p></div>
+            </div></div>
+        </section>
+
+        <section id="contact" class="py-32 text-center px-6"><h2 class="text-6xl font-black uppercase mb-8 text-wellsure-green">Connect</h2><p class="text-2xl font-bold uppercase">Ususan, Taguig City, Metro Manila</p><p class="text-gray-500 text-xs uppercase font-black">0917-1234-567 | hello@wellsure.co</p></section>
+
+        <footer class="py-16 bg-white text-black text-center border-t"><p class="text-[10px] font-black uppercase tracking-[0.6em]">© 2026 Wellsure Co. | Defined by Excellence</p></footer>
+    </div>
+
+    <div id="availModal" class="hidden fixed inset-0 z-[100] items-center justify-center p-4 bg-black/40">
+        <div class="w-full max-w-5xl max-h-[95vh] overflow-y-auto bg-zinc-900/95 p-8 md:p-12 rounded-[2.5rem] border border-white/10 shadow-2xl backdrop-blur-3xl">
+            <div id="planSelection">
+                <h2 class="text-4xl md:text-5xl font-black text-white text-center mb-12 uppercase">Choose Your Tier</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-8 bg-black/50 rounded-[2rem] border border-white/10 text-center hover:border-wellsure-green transition">
+                        <h3 class="text-lg font-bold mb-1 uppercase">Walk-ins</h3>
+                        <p class="text-wellsure-green text-[10px] font-black uppercase mb-3">Per Day</p>
+                        <p class="text-4xl font-black text-white mb-6">₱1,500</p>
+                        <ul class="text-[10px] text-gray-500 mb-8 space-y-2 uppercase font-black"><li>1 Day Access</li><li>All Facilities Included</li></ul>
+                        <button onclick="selectPlan('Walk-ins')" class="w-full bg-white text-black py-4 rounded-xl font-black uppercase text-[10px] hover:bg-wellsure-green transition">Select</button>
+                    </div>
+                    <div class="p-8 bg-wellsure-green/10 rounded-[2.5rem] border-4 border-wellsure-green text-center transform md:scale-105 shadow-2xl relative">
+                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-wellsure-green text-black px-4 py-1.5 rounded-full text-[9px] font-black uppercase">Most Chosen</div>
+                        <h3 class="text-lg font-bold mb-1 uppercase mt-4">Membership</h3>
+                        <p class="text-wellsure-green text-[10px] font-black uppercase mb-3">Yearly</p>
+                        <p class="text-4xl font-black text-white mb-6">₱95,000</p>
+                        <ul class="text-[10px] text-white/80 mb-8 space-y-2 uppercase font-black"><li>Unlimited Facility Access</li><li>1-on-1 Personal Trainer</li><li>Custom Nutrition Plan</li></ul>
+                        <button onclick="selectPlan('Full Membership')" class="w-full bg-wellsure-green text-black py-4 rounded-xl font-black uppercase text-[10px] hover:bg-white transition">Get Started</button>
+                    </div>
+                    <div class="p-8 bg-black/50 rounded-[2rem] border border-white/10 text-center hover:border-wellsure-green transition">
+                        <h3 class="text-lg font-bold mb-1 uppercase">Indoor Gym</h3>
+                        <p class="text-wellsure-green text-[10px] font-black uppercase mb-3">Monthly</p>
+                        <p class="text-4xl font-black text-white mb-6">₱800</p>
+                        <ul class="text-[10px] text-gray-500 mb-8 space-y-2 uppercase font-black"><li>Gym Equipment Access</li><li>Sports Court Use</li></ul>
+                        <button onclick="selectPlan('Indoor Gym')" class="w-full bg-white text-black py-4 rounded-xl font-black uppercase text-[10px] hover:bg-wellsure-green transition">Select</button>
+                    </div>
+                </div>
+                <button onclick="closeModal()" class="block mx-auto mt-10 text-gray-500 uppercase font-black text-[10px] tracking-[0.4em] hover:text-white transition">Cancel & Close</button>
+            </div>
+            <div id="registrationForm" class="hidden max-w-lg mx-auto">
+                <h2 class="text-3xl font-black text-white text-center mb-2 uppercase">Registration</h2>
+                <p class="text-center text-wellsure-green font-bold uppercase text-[10px] mb-8">Plan: <span id="selectedPlanTitle"></span></p>
+                <form onsubmit="handleEnrollment(event)" class="space-y-4">
+                    <div><label class="text-[10px] uppercase font-black text-gray-500 mb-1.5 block">Full Name</label><input type="text" required class="w-full bg-black border border-white/10 p-3.5 rounded-xl text-white text-sm" placeholder="Enter your full name"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><label class="text-[10px] uppercase font-black text-gray-500 mb-1.5 block">Email Address</label><input type="email" required class="w-full bg-black border border-white/10 p-3.5 rounded-xl text-white text-sm" placeholder="name@email.com"></div>
+                        <div><label class="text-[10px] uppercase font-black text-gray-500 mb-1.5 block">Phone Number</label><input type="tel" required class="w-full bg-black border border-white/10 p-3.5 rounded-xl text-white text-sm" placeholder="09XX-XXX-XXXX"></div>
+                    </div>
+                    <div><label class="text-[10px] uppercase font-black text-gray-500 mb-1.5 block">Health Concerns?</label><textarea class="w-full bg-black border border-white/10 p-3.5 rounded-xl text-white text-sm h-20 resize-none" placeholder="Let our trainers know..."></textarea></div>
+                    <button type="submit" class="w-full bg-wellsure-green text-black py-4 rounded-xl font-black uppercase text-sm hover:bg-white transition shadow-xl mt-4">Confirm & Enroll</button>
+                </form>
+                <button onclick="openModal()" class="block mx-auto mt-6 text-gray-500 uppercase font-bold text-[10px] hover:text-white transition">Back to Plans</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
